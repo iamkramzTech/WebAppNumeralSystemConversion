@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" href="@Url.Action("Index","Home")">NumeralSystemConverter</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="@Url.Action("About","Home")">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="@Url.Action("Privacy","Home")">Privacy</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle"
+                               id="navbarDropdown"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">Conversion</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="@Url.Action("DecimalToBinary","Conversion")">Decimal To Binary</a></li>
+                                <li><a class="dropdown-item" href="#!">Binary To Decimal</a></li>
+                                <li><a class="dropdown-item" href="#!">Decimal To Octal</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    <footer class="footer mt-auto py-3 bg-dark">
+        <div class="container">
+            <span class="text-light">Email Address: <a href="mailto:kramztech10@gmail.com" rel="noreferrer noopener" target="_blank">kramztech10@gmail.com</a></span>
+            <p class="text-muted">Follow Me:</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="https://www.facebook.com/kramztech.10" rel="noreferrer noopener" target="_blank">Facebook</a></li>
+                <li class="list-inline-item"><a href="https://github.com/iamkramzTech" rel="noreferrer noopener" target="_blank">Github</a></li>
+                <li class="list-inline-item"><a href="https://www.linkedin.com/in/mark-joseph-bernaldez/" rel="noreferrer noopener" target="_blank">Linkedin</a></li>
+            </ul>
+            <p>NumeralSystemConverter &copy; 2024 - iamkramzTech
+            </p>
+        </div>
+    </footer>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
