@@ -1,3 +1,0 @@
-It does not display output when controller and view is correct
-#Problem: Incorrect project structure my _viewImport is inside /view/shared folder
---fixes: I moved it in /View/ folder

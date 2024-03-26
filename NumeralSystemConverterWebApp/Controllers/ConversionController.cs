@@ -5,6 +5,18 @@ namespace NumeralSystemConverterWebApp.Controllers
 {
     public class ConversionController : Controller
     {
+
+        //Define method signature to be invoked after resetting the form
+        //A Delegates used to define a contract
+        private delegate IActionResult ReloadPageAction();
+
+        private IActionResult ResetForm(ReloadPageAction pageAction)
+        {
+            // Invoke the provided action to reload the page
+            return pageAction.Invoke();
+        }
+
+        #region -- Decimal To Binary
         [HttpGet]
         public IActionResult DecimalToBinary()
         {
@@ -15,30 +27,59 @@ namespace NumeralSystemConverterWebApp.Controllers
         [HttpPost]
         public IActionResult DecimalToBinary(DecimalToBinaryModel model)
         {
-            //var decimalNumberParse = int.Parse(model.DecimalNumber);
-
-            //model.BinaryEquivalent = BaseConverter.DecimalToBinary(decimalNumberParse);
-
-            //if (ModelState.IsValid)
+            #region -- old code --
+            //try
             //{
-     
-            //    // When ModelState is valid, return the view with the updated model
-            //    return View(model);
-               
+            //    if (int.TryParse(model.DecimalNumber, out var decimalNumber))
+            //    {
+            //        model.BinaryEquivalent = BaseConverter.DecimalToBinary(decimalNumber);
+
+            //        if (!ModelState.IsValid)
+            //        {
+            //            return View(model);
+            //        }
+            //    }
             //}
-
+            //catch(OverflowException)
+            //{
+            //    ViewBag.Error = "The number was outside the range of a 32-bit signed integer";
+            //}
+            //catch(Exception)
+            //{
+            //    ViewBag.Error = "Unexpected Error";
+            //}
+           
             //return View(model);
+            #endregion
 
-            if(int.TryParse(model.DecimalNumber, out var decimalNumber))
+            #region -- revised code to make robust and maintainable
+            if (!ModelState.IsValid)
             {
-                model.BinaryEquivalent = BaseConverter.DecimalToBinary(decimalNumber);
-
-                if(!ModelState.IsValid)
+                return View(model);
+            }
+            try
+            {
+                if (int.TryParse(model.DecimalNumber, out var decimalNumber))
                 {
+                    model.BinaryEquivalent = BaseConverter.DecimalToBinary(decimalNumber);
                     return View(model);
                 }
+                else
+                {
+                    ModelState.AddModelError("DecimalNumber", "Invalid decimal number format");
+                }
             }
+            catch(OverflowException)
+            {
+                ModelState.AddModelError("DecimalNumber", "The number was outside the range of a 32-bit signed integer");
+            }
+            catch(Exception)
+            {
+                ModelState.AddModelError("", "Unexpected Error");
+            }
+
             return View(model);
+            #endregion
         }
 
         /// <summary>
@@ -49,8 +90,9 @@ namespace NumeralSystemConverterWebApp.Controllers
         public IActionResult ResetDecimalToBinaryForm()
         {
             // Redirect to the same action to reload the page
-            return RedirectToAction("DecimalToBinary");
+            return ResetForm(() => RedirectToAction("DecimalToBinary"));
         }
 
+        #endregion
     }
 }

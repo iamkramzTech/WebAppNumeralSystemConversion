@@ -14,7 +14,7 @@
              <span asp-validation-for="DecimalNumber" class="text-danger"></span>
         </div>
             <input class="btn btn-success" type="submit" value="Convert" asp-action="DecimalToBinary"/>
-            <input class="btn btn-danger" type="submit" value="Clear" onclick="resetForm()" asp-action="ResetDecimalToBinaryForm" />
+            <input class="btn btn-danger" type="submit" value="Clear" onclick="ResetForm('DecimalToBinaryForm')" asp-action="ResetDecimalToBinaryForm" />
     </div>
 </div>
     <div class="row justify-content-center mt-4">
@@ -27,13 +27,22 @@
             </div>
         </div>
     </div>
+
+    @if(!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong>Conversion Error Occured:</strong>
+            <ul>
+                @foreach (var key in ViewData.ModelState.Keys)
+                {
+                    foreach (var error in ViewData.ModelState[key].Errors)
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                }
+            </ul>
+        </div>
+    }
 </form>
 
-
-<script>
-    function resetForm() {
-        console.log("Form resetting..");
-        document.getElementById("DecimalToBinaryForm").reset(); // Replace "myForm" with the ID of your form
-    }
-</script>
 
