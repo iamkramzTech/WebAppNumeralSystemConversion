@@ -94,5 +94,44 @@ namespace NumeralSystemConverterWebApp.Controllers
         }
 
         #endregion
+
+        #region -- Binary To Decimal
+        [HttpGet]
+        public IActionResult BinaryToDecimal()
+        {
+            return View(new BinaryToDecimalModel());
+        }
+
+        [HttpPost]
+        public IActionResult BinaryToDecimal(BinaryToDecimalModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            try
+            {
+                model.DecimalEquivalent = BaseConverter.BinaryToDecimal(model.BinaryNumber).ToString();
+                return View(model);
+            }
+            catch(Exception)
+            {
+                ModelState.AddModelError("", "Unexpected Error");
+            }
+            return View(model);
+        }
+
+
+        /// <summary>
+        /// Reloading Binary To Decimal Page
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult ResetBinaryToDecimalForm()
+        {
+            // Redirect to the same action to reload the page
+            return ResetForm(() => RedirectToAction("BinaryToDecimal"));
+        }
+        #endregion
     }
 }

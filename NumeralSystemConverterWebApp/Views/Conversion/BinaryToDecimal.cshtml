@@ -1,0 +1,45 @@
+﻿@using NumeralSystemConverterWebApp.Models
+
+@model BinaryToDecimalModel
+
+<h2 class="text-center">Binary to Decimal</h2>
+<form asp-controller="Conversion" asp-action="BinaryToDecimal" id="BinaryToDecimalForm" method="post">
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label asp-for="BinaryNumber" class="form-label"></label>
+                <input asp-for="BinaryNumber" type="text" class="form-control" id="BinaryNumber" placeholder="Enter a Binary Number" />
+                <span asp-validation-for="BinaryNumber" class="text-danger"></span>
+            </div>
+            <input class="btn btn-success" type="submit" value="Convert" asp-action="BinaryToDecimal" />
+            <input class="btn btn-danger" type="submit" value="Clear" onclick="ResetForm('BinaryToDecimalForm')" asp-action="ResetBinaryToDecimalForm" />
+        </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <!-- Label for the BinaryEquivalent, assuming you want to display a label -->
+                <label for="DecimalEquivalent" class="form-label">Decimal Equivalent</label>
+                <!-- Corrected textarea definition -->
+                <textarea rows="4" cols="50" class="form-control" id="DecimalEquivalent" readonly placeholder="Decimal Equivalent">@Model.DecimalEquivalent</textarea>
+            </div>
+        </div>
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong>Conversion Error Occured:</strong>
+            <ul>
+                @foreach (var key in ViewData.ModelState.Keys)
+                {
+                    foreach (var error in ViewData.ModelState[key].Errors)
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+</form>
