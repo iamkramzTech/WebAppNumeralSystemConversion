@@ -112,7 +112,7 @@ namespace NumeralSystemConverterWebApp.Controllers
             try
             {
                 model.DecimalEquivalent = BaseConverter.BinaryToDecimal(model.BinaryNumber).ToString();
-                return View(model);
+               // return View(model);
             }
             catch(Exception)
             {
@@ -133,5 +133,52 @@ namespace NumeralSystemConverterWebApp.Controllers
             return ResetForm(() => RedirectToAction("BinaryToDecimal"));
         }
         #endregion
+
+
+        #region -- Decimal To Octal -- 
+        [HttpGet]
+        public IActionResult DecimalToOctal()
+        {
+            return View(new DecimalToOctalModel());
+        }
+
+        [HttpPost]
+        public IActionResult DecimalToOctal(DecimalToOctalModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            try
+            {
+
+                if (int.TryParse(model.DecimalNumber, out var decimalNumber))
+                {
+                    model.OctalEquivalent = BaseConverter.DecimalToOctal(decimalNumber);
+                    //return View(model);
+                }
+                else
+                {
+                    ModelState.AddModelError("DecimalNumber", "Invalid decimal number format");
+                }
+            }
+            catch (OverflowException)
+            {
+                ModelState.AddModelError("DecimalNumber", "The number was outside the range of a 32-bit signed integer");
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Unexpected Error");
+            }
+            return View(model);
+        }
+        #endregion
+        public IActionResult ResetDecimalToOctalForm()
+        {
+            // Redirect to the same action to reload the page
+            return ResetForm(() => RedirectToAction("DecimalToOctal"));
+        }
     }
+
+
 }

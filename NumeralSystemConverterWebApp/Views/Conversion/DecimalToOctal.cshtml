@@ -1,0 +1,52 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using NumeralSystemConverterWebApp.Models
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model DecimalToOctalModel
+<h2 class="text-center">Decimal to Octal</h2>
+<form asp-controller="Conversion" asp-action="DecimalToOctal" id="DecimalToOctalForm" method="post">
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label asp-for="DecimalNumber" class="form-label"></label>
+                <input asp-for="DecimalNumber" type="number" class="form-control" id="DecimalNumber" placeholder="Enter a Decimal Number" />
+                <span asp-validation-for="DecimalNumber" class="text-danger"></span>
+            </div>
+            <input class="btn btn-success" type="submit" value="Convert" asp-action="DecimalToOctal" />
+            <input class="btn btn-danger" type="submit" value="Clear" asp-action="ResetDecimalToOctalForm" />
+            <input class="btn btn-danger" type="button" value="Clear" onclick="ResetForm('DecimalToOctalForm')" />
+        </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <!-- Label for the OctalEquivalent, assuming you want to display a label -->
+                <label for="OctalEquivalent" class="form-label">Octal Equivalent</label>
+                <!-- Corrected textarea definition -->
+                <textarea rows="4" cols="50" class="form-control" id="OctalEquivalent" readonly placeholder="Octal Equivalent">@Model.OctalEquivalent</textarea>
+            </div>
+        </div>
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong>Conversion Error Occured:</strong>
+            <ul>
+                @foreach (var key in ViewData.ModelState.Keys)
+                {
+                    foreach (var error in ViewData.ModelState[key].Errors)
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+</form>
+
+
